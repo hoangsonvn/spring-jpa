@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+
 @Repository
 public class ProductDao implements IProductDao {
 
@@ -35,7 +36,7 @@ public class ProductDao implements IProductDao {
         ProductEntity productEntities = query.setHint("org.hibernate.cacheable", true).getSingleResult();
         System.out.println(entityManager.contains(productEntities));
         productEntities.setName("ns1");
-// theo như debug khi không @T session mở ra rồi đóng lại khi chạy xong lệnh . getSingleResult
+// theo như debug khi không @T, session mở ra rồi đóng lại khi chạy xong lệnh . getSingleResult
 // , dù trong 1 method cũng đóng 2 lần chứ không phải cuối methods như cái khác
 
         String sql1 = "SELECT u FROM ProductEntity u left  JOIN u.category p ";
@@ -68,18 +69,18 @@ public class ProductDao implements IProductDao {
         return results;
     }
 
-  /*  @Override
-    @Transactional
-    public ProductEntity findByIdEF(Long id) {
-        ProductEntity productEntity = entityManager.find(ProductEntity.class, id);
-        return productEntity;
-    }*/
+    /*  @Override
+      @Transactional
+      public ProductEntity findByIdEF(Long id) {
+          ProductEntity productEntity = entityManager.find(ProductEntity.class, id);
+          return productEntity;
+      }*/
     @Override
     @Transactional
     public ProductEntity findByIdEF(Long id) {
-  //   String sql = "SELECT p FROM ProductEntity p JOIN p.category c WHERE p.id= :id ";
-       String sql = "SELECT p FROM ProductEntity p JOIN FETCH  p.category WHERE p.id= :id ";
-        TypedQuery<ProductEntity> typedQuery = entityManager.createQuery(sql,ProductEntity.class).setParameter("id",id);
+        //   String sql = "SELECT p FROM ProductEntity p JOIN p.category c WHERE p.id= :id ";
+        String sql = "SELECT p FROM ProductEntity p JOIN FETCH  p.category WHERE p.id= :id ";
+        TypedQuery<ProductEntity> typedQuery = entityManager.createQuery(sql, ProductEntity.class).setParameter("id", id);
         ProductEntity product = typedQuery.getSingleResult();
         product.getCategory().getName();
         return product;
@@ -92,10 +93,28 @@ public class ProductDao implements IProductDao {
     /* public ProductEntity findById(Long id) {
          return iProductRepository.findById(id).get();
      }*/
+    @Transactional
     public ProductEntity findById(Long id) {
+//        TypedQuery<ProductEntity> typedQuery = entityManager.createQuery("SELECT p FROM ProductEntity p WHERE p.id =:id AND p.status=true ", ProductEntity.class)
+//                .setParameter("id", id);
+//         typedQuery.getSingleResult();
+//        TypedQuery<ProductEntity> typedQuery1 = entityManager.createQuery("SELECT p FROM ProductEntity p WHERE p.id =:id AND p.status=true ", ProductEntity.class)
+//                .setParameter("id", id);
+//       return typedQuery1.getSingleResult();// Get singleResult này sẽ đóng session lạil. Nên có 2 câu lệnh
+
+
         TypedQuery<ProductEntity> typedQuery = entityManager.createQuery("SELECT p FROM ProductEntity p WHERE p.id =:id AND p.status=true ", ProductEntity.class)
                 .setParameter("id", id);
-         typedQuery.getSingleResult();
-         return null;
+
+        ProductEntity productEntity = typedQuery.setHint("org.hibernate.cacheable", true).getSingleResult();
+        System.out.println(entityManager.contains(productEntity));
+        TypedQuery<ProductEntity> typedQuery1 = entityManager.createQuery("SELECT p FROM ProductEntity p WHERE p.id =:id AND p.status=true ", ProductEntity.class)
+                .setParameter("id", id);
+        ProductEntity productEntity1 = typedQuery.setHint("org.hibernate.cacheable", true).getSingleResult();
+
+
+        return productEntity;
+
+
     }
 }

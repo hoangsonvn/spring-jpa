@@ -3,6 +3,7 @@ package com.example.demo.service.serviceimpl;
 import com.example.demo.dao.IProductDao;
 import com.example.demo.dto.Result;
 import com.example.demo.entity.ProductEntity;
+import com.example.demo.repository.IProductRepository;
 import com.example.demo.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import java.util.List;
 public class ProductService implements IProductService {
     @Autowired
     private IProductDao iProductDao;
+    @Autowired
+    private IProductRepository iProductRepository;
 
     @Override
     public void persist(ProductEntity productEntity) {
@@ -23,6 +26,7 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductEntity findByIdEF(Long id) {
+
         return iProductDao.findByIdEF(id);
     }
 
@@ -30,10 +34,28 @@ public class ProductService implements IProductService {
     public ProductEntity save(ProductEntity productEntity) {
         return iProductDao.save(productEntity);
     }
-@Transactional
+
     @Override
-    public ProductEntity findById(Long id) {
-        return iProductDao.findById(id);
+    public ProductEntity findById(Long id) throws InterruptedException {
+        ProductEntity product = iProductRepository.findById(id).get();
+//        product.setTitle("1223");
+//        ProductEntity productEntity = iProductRepository.save(product);
+//        productEntity.setTitle("3232");
+//        iProductDao.findById(id);
+//iProductRepository.findByCode("1223");
+//        iProductRepository.findByCode("1223");
+//        iProductRepository.findByCode("1223");
+//        iProductRepository.findByCode("1223");
+
+//        iProductDao.findById(id);
+//        iProductRepository.findById(id);
+
+
+        Thread.sleep(15000);
+
+        product.setTitle("!23123123123");
+        iProductRepository.save(product);
+        return iProductRepository.findById(id).get();
     }
 
     @Override

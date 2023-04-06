@@ -23,6 +23,11 @@ public class UserEntity {
     private String password;
 
     @JsonIgnore
+    @OneToOne
+    private Proxy proxy;
+
+
+    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     // @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userid"),// master
@@ -61,6 +66,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Proxy getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
     }
 
     public List<RoleEntity> getRoles() {

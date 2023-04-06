@@ -25,7 +25,12 @@ public class RoleEntity {
         users.remove(user); // lệnh từ bảng trung gian này selecte role vs  user_role có userId = ?
         user.getRoles().remove(this);// vì thằng role này là many to many có thể còn chưa thằng user khác // lệnh từ bảng trung gian này selecte user vs  user_role có roleId = ?
     }  // removeUser không hoạt động
-
+    @PreRemove
+    private void removeRolesFromUsers() {
+        for (UserEntity u : users) {// 1 câu lẹnh lấy ra users từ userId
+            u.getRoles().remove(this);// để remove sẽ find lên những role của userid
+        }
+    }
     public Long getId() {
         return id;
     }

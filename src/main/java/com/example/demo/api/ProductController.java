@@ -82,8 +82,8 @@ public class ProductController {
 
     @GetMapping("/repository/product/{id}")
     @ResponseBody
-    public ResponseEntity findByIdRepo(@PathVariable(value = "id") long id) {
-        iProductService.findById(1l);
+    public ResponseEntity findByIdRepo(@PathVariable(value = "id") long id) throws InterruptedException {
+        iProductService.findById(6l);
         ResponseEntity.ok(iProductService.findById(id));
         return null;
     }

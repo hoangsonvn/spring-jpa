@@ -22,7 +22,7 @@ public class CategoryEntity {
     }
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<ProductEntity> products = new ArrayList<>();
 
     public void addProduct(ProductEntity productEntity){

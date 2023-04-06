@@ -9,7 +9,7 @@ public interface IProductService {
     void persist(ProductEntity productEntity);
     ProductEntity findByIdEF(Long id);
     ProductEntity save(ProductEntity productEntity);
-    ProductEntity findById(Long id);
+    ProductEntity findById(Long id) throws InterruptedException;
     List<ProductEntity> findAll();
     List<Object[]> findNameAndCode();
     List<Result> findNameAndCodeCustomClass(Long id);
