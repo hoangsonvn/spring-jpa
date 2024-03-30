@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.apiv2;
 
 import com.example.demo.dto.Result;
 import com.example.demo.entity.CategoryEntity;
@@ -9,17 +9,11 @@ import com.example.demo.service.ICategoryService;
 import com.example.demo.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class ProductController {
     @Autowired
     private IProductService iProductService;
@@ -48,13 +42,13 @@ public class ProductController {
 //    }
 
     @GetMapping("/product")
-    public ResponseEntity findAll() {
+    public String findAll() {
 
-        List<ProductEntity> productEntities = iProductService.findAll();
-        for (ProductEntity p : productEntities) {
-            p.setCategory(iCategoryService.findById(p.getCategory().getId()));
-        }
-        return ResponseEntity.ok(productEntities);
+//        List<ProductEntity> productEntities = iProductService.findAll();
+//        for (ProductEntity p : productEntities) {
+//            p.setCategory(iCategoryService.findById(p.getCategory().getId()));
+//        }
+        return "nasdsad";
     }
 
 
@@ -97,10 +91,12 @@ public class ProductController {
 
     @PostMapping("/product")
     @ResponseBody
-    public ResponseEntity<ProductEntity> update(@RequestBody ProductEntity productEntity) {
-        CategoryEntity categoryEntity = iCategoryRepository.findById(1L).orElse(new CategoryEntity());
+    public ResponseEntity<?> update(@RequestBody ProductEntity productEntity) {
+        CategoryEntity categoryEntity = iCategoryRepository.findById(2L).orElse(new CategoryEntity());
         productEntity.setCategory(categoryEntity);
-        return ResponseEntity.ok(iProductRepository.save(productEntity));
+        iProductService.save(productEntity);
+        System.out.println(123);
+        return ResponseEntity.ok("ok".toString());
     }
 
     @DeleteMapping("/product")

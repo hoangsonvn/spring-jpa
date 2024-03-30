@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.apiv2;
 
 import com.example.demo.entity.Proxy;
 import com.example.demo.entity.UserEntity;

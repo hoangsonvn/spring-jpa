@@ -35,6 +35,19 @@ public class RoleService implements IRoleService {
     }
 
     @Transactional
+    public void insert(RoleEntity roleEntity) throws InterruptedException {
+        iRoleDao.persist(roleEntity);
+        Thread.sleep(10000);
+        throw new RuntimeException();
+    }
+    @Transactional
+    public void insert1(RoleEntity roleEntity) {
+        iRoleDao.persist(roleEntity);
+    }
+
+
+
+    @Transactional
     @Override
     public RoleEntity save(RoleEntity roleEntity) {
         UserEntity user = iUserDao.findById(1L);

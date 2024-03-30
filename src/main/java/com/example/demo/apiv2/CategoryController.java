@@ -1,9 +1,10 @@
-package com.example.demo.api;
+package com.example.demo.apiv2;
 
 import com.example.demo.entity.CategoryEntity;
 import com.example.demo.entity.ProductEntity;
 import com.example.demo.repository.ICategoryRepository;
 import com.example.demo.service.ICategoryService;
+import com.example.demo.service.serviceimpl.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,9 +21,11 @@ public class CategoryController {
     @Autowired
     private ICategoryService iCategoryService;
     @Autowired
+    private CategoryService categoryService;
+    @Autowired
     private ICategoryRepository iCategoryRepository;
     final ExecutorService executorService = Executors.newFixedThreadPool(10);
-
+    private long a = 0;
 //    @GetMapping("/category")
 //    @ResponseBody
 //    public ResponseEntity findAllRepo() {
@@ -76,15 +78,27 @@ public class CategoryController {
 
     @PostMapping("/cate/nocasade/add")
     public ResponseEntity save(@RequestParam long id, HttpServletRequest request) {
-        try {
-            executorService.execute(() -> iCategoryService.saveManyProducts(id));
-//            CompletableFuture.runAsync(() -> iCategoryService.saveManyProducts(id)).exceptionally(ex -> {
-//                System.out.println("Oops! We have an exception - " + ex.getMessage());
-//                return null;
-//            });
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+
+        System.out.println(categoryService.getLongmethods());
+//CategoryService categoryService = new CategoryService(iCategoryRepository, iCategoryDao);
+//        System.out.println(categoryService.getLongmethods());
+
+
+        System.out.println(Thread.currentThread().getId());
+        a++;
+        System.out.println(a);
+//        try {
+////            executorService.execute(() -> {
+//            categoryService.saveManyProducts(id);
+//
+////            });
+////            CompletableFuture.runAsync(() -> iCategoryService.saveManyProducts(id)).exceptionally(ex -> {
+////                System.out.println("Oops! We have an exception - " + ex.getMessage());
+////                return null;
+////            });
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
         return ResponseEntity.ok("done");
     }
 
