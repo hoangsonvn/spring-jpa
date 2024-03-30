@@ -36,9 +36,10 @@ public class UserDao implements IUserDao {
         String sql = "Select u from UserEntity u";
         return entityManager.createQuery(sql, UserEntity.class).getResultList();
     }
-@Transactional
+
+    @Transactional
     @Override
     public void remove(Long id) {
-        entityManager.remove(this.entityManager.find(UserEntity.class,id));// se xoa ca cot phu cho du khong add role vi có lệnh find tìm ra rồi
+        entityManager.remove(this.entityManager.find(UserEntity.class, id));// se xoa ca cot phu cho du khong add role vi có lệnh find tìm ra rồi
     }
 }
