@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.apiv2;
 
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.entity.UserEntity;
@@ -7,7 +7,6 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.serviceimpl.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,6 +22,19 @@ public class RoleController {
     private RoleRepository roleRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @PostMapping(value = "/insert")
+    public ResponseEntity<RoleEntity> pInsert(@RequestBody RoleEntity roleEntity) throws InterruptedException {
+        roleService.insert(roleEntity);
+        return ResponseEntity.ok(roleEntity);
+    }
+    @PostMapping(value = "/insert1")
+    public ResponseEntity<RoleEntity> pInsert1(@RequestBody RoleEntity roleEntity) throws InterruptedException {
+        roleService.insert1(roleEntity);
+        return ResponseEntity.ok(roleEntity);
+    }
+
+
 
     @PostMapping(value = "/role")
     public ResponseEntity<RoleEntity> pRole(@RequestBody RoleEntity roleEntity) {

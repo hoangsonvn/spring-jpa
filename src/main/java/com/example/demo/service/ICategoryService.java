@@ -17,5 +17,5 @@ public interface ICategoryService {
 
     List<CategoryEntity> findCategoryNativeById(Long id);
 
-    void saveManyProducts(long id);
+//    void saveManyProducts(long id) throws Exception;
 }

@@ -1,0 +1,10 @@
+POST http://localhost:8080/cate/nocasade/add?id=1
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:8080/api/annotation/
+Accept: application/json
+
+###
